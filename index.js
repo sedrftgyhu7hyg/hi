@@ -1,28 +1,19 @@
-const pancakeSort = (arr) => {
-  const flip = (arr, k) => {
-    let i = 0;
-    while (i < k / 2) {
-      [arr[i], arr[k - i]] = [arr[k - i], arr[i]];
-      i++;
+function combinationSum2(candidates, target) {
+  candidates.sort((a, b) => a - b);
+  const result = [];
+  backtrack([], 0, 0);
+  return result;
+  function backtrack(combination, start, sum) {
+    if (sum === target) {
+      result.push([...combination]);
+      return;
     }
-  };
-  const findMaxIndex = (arr, n) => {
-    let maxIndex = 0;
-    for (let i = 0; i < n; i++) {
-      if (arr[i] > arr[maxIndex]) {
-        maxIndex = i;
-      }
+    if (sum > target) return;
+    for (let i = start; i < candidates.length; i++) {
+      if (i > start && candidates[i] === candidates[i - 1]) continue;
+      combination.push(candidates[i]);
+      backtrack(combination, i + 1, sum + candidates[i]);
+      combination.pop();
     }
-    return maxIndex;
-  };
-  let currentSize = arr.length;
-  while (currentSize > 1) {
-    const maxIndex = findMaxIndex(arr, currentSize);
-    if (maxIndex !== currentSize - 1) {
-      flip(arr, maxIndex);
-      flip(arr, currentSize - 1);
-    }
-    currentSize--;
   }
-  return arr;
-};
+}
